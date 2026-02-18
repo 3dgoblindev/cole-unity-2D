@@ -19,9 +19,16 @@ public class enemy : MonoBehaviour
     void Update()
     {
         if (direccion == false)
+        {
             rb.linearVelocityX = Mathf.Max(rb.linearVelocityX - velocidad, -MAXvelocidad);
-        else
+            transform.localScale = new Vector2(-1, 1);
+        }
+
+        else 
+        {
             rb.linearVelocityX = Mathf.Min(rb.linearVelocityX + velocidad, MAXvelocidad);
+            transform.localScale = new Vector2(1, 1);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
