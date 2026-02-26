@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -20,6 +21,7 @@ public class prota : MonoBehaviour
 
     public InputAction movimiento;
 
+
     AudioSource au; //Referencia al audio source del personaje
 
     [SerializeField] AudioClip saltoclip; //Referencia al audio clip del salto
@@ -27,11 +29,18 @@ public class prota : MonoBehaviour
     [SerializeField] AudioClip killclip; //Referencia al audio clip de matar a un enemigo
     [SerializeField] AudioClip itemclip; //Referencia al audio clip de recoger un item
 
+    public GameObject GameManager;
+
+
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameManager = GameObject.Find("GameManager");
+
         movimiento.Enable();
+
 
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
@@ -45,7 +54,8 @@ public class prota : MonoBehaviour
     void Update()
     {
 
-        if(can_move == false)
+
+        if (can_move == false || GameManager.GetComponent<GameManager>().pausa == true)
         {
             return;
         }
@@ -84,6 +94,9 @@ public class prota : MonoBehaviour
             anim.SetBool("walking", false);
         }
 
+
+
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -102,6 +115,7 @@ public class prota : MonoBehaviour
         //Detectar colision con items
         if (collision.gameObject.tag == "Item")
         {
+            GameManager.GetComponent<GameManager>().puntos += 1;
             //print("has tocado el item");
             Destroy(collision.gameObject);
             au.PlayOneShot(itemclip, 2);
@@ -109,6 +123,7 @@ public class prota : MonoBehaviour
 
         if (collision.gameObject.tag == "Enemy")
         {
+            GameManager.GetComponent<GameManager>().puntos += 5;
             Destroy(collision.gameObject);
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, fuerza_salto);
             au.PlayOneShot(killclip);
