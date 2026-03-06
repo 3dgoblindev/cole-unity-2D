@@ -19,7 +19,9 @@ public class prota : MonoBehaviour
     Rigidbody2D rb; //Referencia al rigidbody2D del personaje
     CapsuleCollider2D collider2D; //Referencia al collider2D del personaje
 
-    public InputAction movimiento;
+    InputAction movimiento;
+    InputAction jumpAction;
+
 
 
     AudioSource au; //Referencia al audio source del personaje
@@ -39,7 +41,8 @@ public class prota : MonoBehaviour
     {
         GameManager = GameObject.Find("GameManager");
 
-        movimiento.Enable();
+        movimiento = InputSystem.actions.FindAction("Move");
+        jumpAction = InputSystem.actions.FindAction("Jump"); 
 
 
         rb = GetComponent<Rigidbody2D>();
@@ -60,7 +63,7 @@ public class prota : MonoBehaviour
             return;
         }
 
-        float ejeX = movimiento.ReadValue<float>();
+        float ejeX = movimiento.ReadValue<Vector2>().x;
 
         rb.linearVelocity = new Vector2(
             ejeX * velocidad,
@@ -69,7 +72,7 @@ public class prota : MonoBehaviour
 
 
         //salto
-        if (Keyboard.current.wKey.wasPressedThisFrame && en_suelo)
+        if (jumpAction.WasPressedThisFrame() && en_suelo)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, fuerza_salto);
             au.PlayOneShot(saltoclip);

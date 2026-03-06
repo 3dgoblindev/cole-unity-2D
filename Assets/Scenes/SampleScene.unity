@@ -6998,6 +6998,10 @@ PrefabInstance:
       propertyPath: menu.m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 6168500746878871783, guid: 3c4727e8df36bb546a1ab993a5f0acb5, type: 3}
+      propertyPath: salto.m_Name
+      value: Salto
+      objectReference: {fileID: 0}
     - target: {fileID: 7474262104792989832, guid: 3c4727e8df36bb546a1ab993a5f0acb5, type: 3}
       propertyPath: m_Size.x
       value: 0.5

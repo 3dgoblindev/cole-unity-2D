@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Floor
   - EnemyWall
+  - Casa
   layers:
   - Default
   - TransparentFX

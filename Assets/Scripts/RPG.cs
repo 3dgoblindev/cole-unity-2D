@@ -6,6 +6,8 @@ public class RPG : MonoBehaviour
     public Rigidbody2D rb;
     public float speed = 5f;
 
+    public GameObject InteractIcon;
+
     private Vector2 movement;
     private Vector2 last_movement;
 
@@ -39,7 +41,6 @@ public class RPG : MonoBehaviour
         {
             last_movement = movement;
             animator.SetBool("IsMoving", true);
-            print("Last Movement: " + last_movement);
         }
         else
         {
@@ -62,5 +63,26 @@ public class RPG : MonoBehaviour
         }
 
 
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.gameObject.CompareTag("Casa"))
+        {
+            spriteRenderer.sortingOrder = 1;
+            print("Collided with Casa, sorting order set to 1");
+        }
+        print("Collided with " + collision.gameObject.name);
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Casa"))
+        {
+            spriteRenderer.sortingOrder = 3;
+            print("Exited collision with Casa, sorting order set to 3");
+        }
+    }
+
+    public void InteractVisual(bool can) {
+        InteractIcon.SetActive(can);
     }
 }
